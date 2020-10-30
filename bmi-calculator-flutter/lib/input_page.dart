@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'Reusable.dart';
+import 'Icon_content.dart';
 
 const Color color = Color(0xFF1D1E33);
 const Color colorBottom = Colors.pink;
@@ -23,11 +26,19 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     colour: color,
+                    cardChild: CardGender(
+                      genderIcon: FontAwesomeIcons.mars,
+                      genderText: "Male",
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
                     colour: color,
+                    cardChild: CardGender(
+                      genderIcon: FontAwesomeIcons.venus,
+                      genderText: "Female",
+                    ),
                   ),
                 ),
               ],
@@ -61,22 +72,6 @@ class _InputPageState extends State<InputPage> {
           )
         ],
       ),
-    );
-  }
-}
-
-class ReusableCard extends StatelessWidget {
-  ReusableCard({@required this.colour});
-  final Color colour;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: this.colour,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      margin: EdgeInsets.all(15.0),
     );
   }
 }
