@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(Quizzler());
@@ -25,25 +28,56 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreList = [];
+
+  Map<String, bool> questions = {
+    'You can lead a cow down stairs but not up stairs.': false,
+    'Approximately one quarter of human bones are in the feet.': true,
+    'A slug\'s blood is green.': true,
+  };
+
+  void checkAnswer(int number, bool answer) {
+    var values = questions.values.toList();
+
+    if (values[number] == answer) {
+      setState(() {
+        scoreList.add(
+          Icon(
+            Icons.check,
+            color: Colors.green,
+          ),
+        );
+      });
+    } else {
+      setState(() {
+        scoreList.add(
+          Icon(
+            Icons.close,
+            color: Colors.red,
+          ),
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    int ran = Random().nextInt(3);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Expanded(
           flex: 5,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Center(
-              child: Text(
-                'This is where the question text will go.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ),
-              ),
+          child: Center(
+            child: Text(
+              generate(ran),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 30.0,
+                  fontFamily: 'Arial',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
           ),
         ),
@@ -54,14 +88,14 @@ class _QuizPageState extends State<QuizPage> {
               textColor: Colors.white,
               color: Colors.green,
               child: Text(
-                'True',
+                'TRUE',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                 ),
               ),
               onPressed: () {
-                //The user picked true.
+                checkAnswer(ran, true);
               },
             ),
           ),
@@ -70,28 +104,35 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
+              textColor: Colors.white,
               color: Colors.red,
               child: Text(
-                'False',
+                'FALSE',
                 style: TextStyle(
                   fontSize: 20.0,
                   color: Colors.white,
                 ),
               ),
               onPressed: () {
-                //The user picked false.
+                checkAnswer(ran, false);
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children: scoreList,
+        ),
       ],
     );
   }
-}
 
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
+  String generate(int ran) {
+    int count = 0;
+    for (var key in questions.keys) {
+      if (count == ran) {
+        return key;
+      }
+      count++;
+    }
+  }
+}
