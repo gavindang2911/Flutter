@@ -17,7 +17,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
   int height = 180;
-  double _currentSliderValue = 3;
+  int weight = 70;
+  int age = 21;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,36 +135,38 @@ class _InputPageState extends State<InputPage> {
                           textBaseline: TextBaseline.alphabetic,
                           children: <Widget>[
                             Text(
-                              '70',
+                              weight.toString(),
                               style: kNumberStyle,
-                            ),
-                            Text(
-                              'Kg',
-                              style: labelTextStyle,
                             ),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            FloatingActionButton(
-                              onPressed: null,
-                              backgroundColor: Color(0xFF4C4F5E),
+                            RoundIconButton(
                               child: Icon(
-                                Icons.remove,
+                                FontAwesomeIcons.minus,
                                 color: Colors.white,
                               ),
+                              onCounter: () {
+                                setState(() {
+                                  --weight;
+                                });
+                              },
                             ),
                             SizedBox(
                               width: 10.0,
                             ),
-                            FloatingActionButton(
-                              onPressed: null,
-                              backgroundColor: Color(0xFF4C4F5E),
+                            RoundIconButton(
                               child: Icon(
-                                Icons.add,
+                                FontAwesomeIcons.plus,
                                 color: Colors.white,
                               ),
+                              onCounter: () {
+                                setState(() {
+                                  ++weight;
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -174,6 +177,49 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     colour: inactiveColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Age',
+                          style: labelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                              child: Icon(
+                                FontAwesomeIcons.minus,
+                                color: Colors.white,
+                              ),
+                              onCounter: () {
+                                setState(() {
+                                  age--;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            RoundIconButton(
+                              child: Icon(
+                                FontAwesomeIcons.plus,
+                                color: Colors.white,
+                              ),
+                              onCounter: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -186,6 +232,26 @@ class _InputPageState extends State<InputPage> {
           )
         ],
       ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  RoundIconButton({@required this.child, this.onCounter});
+  final Widget child;
+  final Function onCounter;
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      child: this.child,
+      onPressed: onCounter,
+      elevation: 6.0,
+      constraints: BoxConstraints.tightFor(
+        height: 56.0,
+        width: 56.0,
+      ),
+      shape: CircleBorder(),
+      fillColor: Color(0xFF4C4F5E),
     );
   }
 }
