@@ -40,7 +40,9 @@ class _InputPageState extends State<InputPage> {
                       genderText: "Male",
                     ),
                     onPress: () {
-                      selectedGender = Gender.MALE;
+                      setState(() {
+                        selectedGender = Gender.MALE;
+                      });
                     },
                   ),
                 ),
@@ -54,7 +56,9 @@ class _InputPageState extends State<InputPage> {
                       genderText: "Female",
                     ),
                     onPress: () {
-                      selectedGender = Gender.FEMALE;
+                      setState(() {
+                        selectedGender = Gender.FEMALE;
+                      });
                     },
                   ),
                 ),
@@ -86,16 +90,27 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ],
                   ),
-                  Slider(
-                      value: height.toDouble(),
-                      min: 120.0,
-                      max: 220.0,
-                      activeColor: Colors.pink,
-                      onChanged: (double value) {
-                        setState(() {
-                          height = value.toInt();
-                        });
-                      }),
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      inactiveTrackColor: Colors.white70,
+                      activeTrackColor: Colors.pink,
+                      thumbColor: Color(0xFFFFFF00),
+                      thumbShape:
+                          RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                      overlayColor: Color(0x29FFFF00),
+                      overlayShape:
+                          RoundSliderOverlayShape(overlayRadius: 30.0),
+                    ),
+                    child: Slider(
+                        value: height.toDouble(),
+                        min: 120.0,
+                        max: 220.0,
+                        onChanged: (double value) {
+                          setState(() {
+                            height = value.toInt();
+                          });
+                        }),
+                  ),
                 ],
               ),
             ),
@@ -106,6 +121,54 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     colour: inactiveColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Weight',
+                          style: labelTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: <Widget>[
+                            Text(
+                              '70',
+                              style: kNumberStyle,
+                            ),
+                            Text(
+                              'Kg',
+                              style: labelTextStyle,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FloatingActionButton(
+                              onPressed: null,
+                              backgroundColor: Color(0xFF4C4F5E),
+                              child: Icon(
+                                Icons.remove,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            FloatingActionButton(
+                              onPressed: null,
+                              backgroundColor: Color(0xFF4C4F5E),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(
