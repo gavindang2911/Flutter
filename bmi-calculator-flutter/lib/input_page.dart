@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Reusable.dart';
@@ -225,12 +226,40 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: colorBottom,
-            height: 80.0,
-            width: double.infinity,
-          )
+          BottomButton(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ResultsPage()));
+            },
+            buttonTitle: "Calculate",
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class BottomButton extends StatelessWidget {
+  final Function onTap;
+  final String buttonTitle;
+
+  const BottomButton({@required this.onTap, this.buttonTitle});
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        child: Center(
+          child: Text(
+            buttonTitle,
+            style: kLargeButtonStyle,
+          ),
+        ),
+        margin: EdgeInsets.only(top: 10.0),
+        padding: EdgeInsets.only(bottom: 10.0),
+        color: colorBottom,
+        height: 80.0,
+        width: double.infinity,
       ),
     );
   }
